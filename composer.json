@@ -1,0 +1,19 @@
+{
+  "name": "bavix/sdk",
+  "description": "sdk",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "REZ1DENT3",
+      "email": "info@babichev.net"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Bavix\\": "src/"
+    }
+  },
+  "require": {
+    "bavix/helpers": "^1.0"
+  }
+}
