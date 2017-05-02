@@ -29,6 +29,21 @@ class Path
     protected $typePad = STR_PAD_RIGHT;
 
     /**
+     * @return static
+     */
+    public static function sharedInstance()
+    {
+        static $sharedInstance;
+
+        if (!$sharedInstance)
+        {
+            $sharedInstance = new static();
+        }
+
+        return $sharedInstance;
+    }
+
+    /**
      * @param string $data
      *
      * @return string
