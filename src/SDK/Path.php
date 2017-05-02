@@ -2,11 +2,14 @@
 
 namespace Bavix\SDK;
 
+use Bavix\Foundation\SharedInstance;
 use Bavix\Helpers\Arr;
 use Bavix\Helpers\Str;
 
 class Path
 {
+
+    use SharedInstance;
 
     /**
      * @var int
@@ -27,21 +30,6 @@ class Path
      * @var int
      */
     protected $typePad = STR_PAD_RIGHT;
-
-    /**
-     * @return static
-     */
-    public static function sharedInstance()
-    {
-        static $sharedInstance;
-
-        if (!$sharedInstance)
-        {
-            $sharedInstance = new static();
-        }
-
-        return $sharedInstance;
-    }
 
     /**
      * @param string $data
