@@ -11,17 +11,22 @@ class Path
     /**
      * @var int
      */
-    protected static $limit = 2;
+    protected static $depth = 2;
 
     /**
      * @var int
      */
-    protected static $chars = 2;
+    protected static $length = 2;
 
     /**
      * @var string
      */
-    protected static $padChar = '0';
+    protected static $charPad = '0';
+
+    /**
+     * @var int
+     */
+    protected static $typePad = STR_PAD_RIGHT;
 
     /**
      * @param string $data
@@ -32,34 +37,42 @@ class Path
     {
         return str_pad(
             $data,
-            static::$limit * static::$chars,
-            static::$padChar,
-            STR_PAD_LEFT
+            static::$depth * static::$length,
+            static::$charPad,
+            static::$typePad
         );
     }
 
     /**
      * @param int $data
      */
-    public static function setChars($data)
+    public static function setLength($data)
     {
-        static::$chars = $data;
+        static::$length = $data;
     }
 
     /**
      * @param int $data
      */
-    public static function setLimit($data)
+    public static function setDepth($data)
     {
-        static::$limit = $data;
+        static::$depth = $data;
     }
 
     /**
      * @param string $data
      */
-    public static function setPadChar($data)
+    public static function setCharPad($data)
     {
-        static::$padChar = $data;
+        static::$charPad = $data;
+    }
+
+    /**
+     * @param int $data
+     */
+    public static function setTypePad($data)
+    {
+        static::$typePad = $data;
     }
 
     /**
@@ -70,8 +83,8 @@ class Path
     public static function hash($string)
     {
         return implode('/', Arr::slice(
-            Str::split(static::string($string), static::$chars),
-            0, static::$limit
+            Str::split(static::string($string), static::$length),
+            0, static::$depth
         ));
     }
 
