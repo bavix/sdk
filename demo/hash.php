@@ -6,9 +6,10 @@ $hash = \Bavix\Helpers\Str::random(10);
 
 var_dump($hash);
 
-\Bavix\SDK\Path::setDepth(4);
-\Bavix\SDK\Path::setLength(3);
-\Bavix\SDK\Path::setCharPad('b');
+$path = new \Bavix\SDK\Path();
+$path->setDepth(4);
+$path->setLength(3);
+$path->setCharPad('b');
 
-var_dump(\Bavix\SDK\Path::generate('user', 'origin', $hash));
-var_dump(\Bavix\SDK\Path::generate('user', 'thumbs', $hash));
+var_dump($path->generate('user', 'origin', $hash));
+var_dump($path->generate('user', 'thumbs', $hash));

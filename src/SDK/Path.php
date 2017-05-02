@@ -11,68 +11,68 @@ class Path
     /**
      * @var int
      */
-    protected static $depth = 2;
+    protected $depth = 2;
 
     /**
      * @var int
      */
-    protected static $length = 2;
+    protected $length = 2;
 
     /**
      * @var string
      */
-    protected static $charPad = '0';
+    protected $charPad = '0';
 
     /**
      * @var int
      */
-    protected static $typePad = STR_PAD_RIGHT;
+    protected $typePad = STR_PAD_RIGHT;
 
     /**
      * @param string $data
      *
      * @return string
      */
-    protected static function string($data)
+    protected function string($data)
     {
         return str_pad(
             $data,
-            static::$depth * static::$length,
-            static::$charPad,
-            static::$typePad
+            $this->depth * $this->length,
+            $this->charPad,
+            $this->typePad
         );
     }
 
     /**
      * @param int $data
      */
-    public static function setLength($data)
+    public function setLength($data)
     {
-        static::$length = $data;
+        $this->length = $data;
     }
 
     /**
      * @param int $data
      */
-    public static function setDepth($data)
+    public function setDepth($data)
     {
-        static::$depth = $data;
+        $this->depth = $data;
     }
 
     /**
      * @param string $data
      */
-    public static function setCharPad($data)
+    public function setCharPad($data)
     {
-        static::$charPad = $data;
+        $this->charPad = $data;
     }
 
     /**
      * @param int $data
      */
-    public static function setTypePad($data)
+    public function setTypePad($data)
     {
-        static::$typePad = $data;
+        $this->typePad = $data;
     }
 
     /**
@@ -80,11 +80,11 @@ class Path
      *
      * @return array
      */
-    public static function hash($string)
+    public function hash($string)
     {
         return implode('/', Arr::slice(
-            Str::split(static::string($string), static::$length),
-            0, static::$depth
+            Str::split($this->string($string), $this->length),
+            0, $this->depth
         ));
     }
 
@@ -97,9 +97,9 @@ class Path
      *
      * @return string
      */
-    public static function generate($type, $config, $hash)
+    public function generate($type, $config, $hash)
     {
-        return $type . '/' . $config . '/' . static::hash($hash) . '/' . $hash;
+        return $type . '/' . $config . '/' . $this->hash($hash) . '/' . $hash;
     }
     
 }
