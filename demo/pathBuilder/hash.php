@@ -1,12 +1,12 @@
 <?php
 
-include_once dirname(__DIR__) . '/vendor/autoload.php';
+include_once dirname(__DIR__, 2) . '/vendor/autoload.php';
 
 $hash = \Bavix\Helpers\Str::random(10);
 
 var_dump($hash);
 
-$path = \Bavix\SDK\Path::sharedInstance();
+$path = new \Bavix\SDK\PathBuilder();
 $path->setDepth(4);
 $path->setLength(3);
 $path->setCharPad('b');

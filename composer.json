@@ -16,5 +16,9 @@
   "require": {
     "bavix/helpers": "^1.0",
     "bavix/foundation": "^1.0"
+  },
+  "require-dev": {
+    "bavix/slice": "^1.0",
+    "symfony/yaml": "^3.2"
   }
 }

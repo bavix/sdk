@@ -6,7 +6,7 @@ use Bavix\Foundation\SharedInstance;
 use Bavix\Helpers\Arr;
 use Bavix\Helpers\Str;
 
-class Path
+class PathBuilder
 {
 
     use SharedInstance;
@@ -30,6 +30,18 @@ class Path
      * @var int
      */
     protected $typePad = STR_PAD_RIGHT;
+
+    /**
+     * PathBuilder constructor.
+     *
+     * @param int $length
+     * @param int $depth
+     */
+    public function __construct($length = 2, $depth = 2)
+    {
+        $this->length = $length;
+        $this->depth  = $depth;
+    }
 
     /**
      * @param string $data
