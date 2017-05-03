@@ -25,9 +25,9 @@ trait DataTrait
     /**
      * @inheritdoc
      */
-    public function asSlice()
+    public function asSlice($parameters = null)
     {
-        return new Slice($this->asArray());
+        return new Slice($this->asArray(), $parameters);
     }
 
 }

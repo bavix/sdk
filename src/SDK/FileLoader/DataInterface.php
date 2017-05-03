@@ -7,9 +7,11 @@ use Bavix\Slice\Slice;
 interface DataInterface
 {
     /**
+     * @param array|Slice $parameters
+     *
      * @return Slice
      */
-    public function asSlice();
+    public function asSlice($parameters = null);
 
     /**
      * @return array
