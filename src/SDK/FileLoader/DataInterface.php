@@ -24,4 +24,9 @@ interface DataInterface
      * @return bool
      */
     public function save($data);
+
+    /**
+     * @return string
+     */
+    public function path();
 }

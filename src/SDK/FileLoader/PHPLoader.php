@@ -21,7 +21,7 @@ class PHPLoader implements DataInterface
     {
         if (!$this->data)
         {
-            $this->data = require $this->file;
+            $this->data = require $this->path;
         }
 
         return $this->data;
@@ -38,7 +38,7 @@ class PHPLoader implements DataInterface
         }
 
         return (bool)file_put_contents(
-            $this->file,
+            $this->path,
             '<?php return ' . var_export($data, true) . ';'
         );
     }

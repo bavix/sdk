@@ -22,7 +22,7 @@ class YamlLoader implements DataInterface
     {
         if (!$this->data)
         {
-            $yml = file_get_contents($this->file);
+            $yml = file_get_contents($this->path);
             $this->data = Yaml::parse($yml);
         }
 
@@ -40,7 +40,7 @@ class YamlLoader implements DataInterface
         }
 
         return (bool)file_put_contents(
-            $this->file,
+            $this->path,
             Yaml::dump($data)
         );
     }

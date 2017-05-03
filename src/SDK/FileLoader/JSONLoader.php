@@ -22,7 +22,7 @@ class JSONLoader implements DataInterface
     {
         if (!$this->data)
         {
-            $yml = file_get_contents($this->file);
+            $yml = file_get_contents($this->path);
             $this->data = JSON::decode($yml);
         }
 
@@ -40,7 +40,7 @@ class JSONLoader implements DataInterface
         }
 
         return (bool)file_put_contents(
-            $this->file,
+            $this->path,
             JSON::encode($data, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT)
         );
     }

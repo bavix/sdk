@@ -10,16 +10,16 @@ trait DataTrait
     /**
      * @var string
      */
-    protected $file;
+    protected $path;
 
     /**
      * DataTrait constructor.
      *
-     * @param string $file
+     * @param string $path
      */
-    public function __construct($file)
+    public function __construct($path)
     {
-        $this->file = $file;
+        $this->path = $path;
     }
 
     /**
@@ -28,6 +28,11 @@ trait DataTrait
     public function asSlice($parameters = null)
     {
         return new Slice($this->asArray(), $parameters);
+    }
+
+    public function path()
+    {
+        return $this->path;
     }
 
 }
