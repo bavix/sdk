@@ -21,6 +21,14 @@ class FileLoader
     ];
 
     /**
+     * @return array
+     */
+    public static function extensions()
+    {
+        return array_keys(static::$extensions);
+    }
+
+    /**
      * @param string $file
      *
      * @return FileLoader\DataInterface
