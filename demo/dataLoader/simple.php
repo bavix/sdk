@@ -15,3 +15,5 @@ $yml->save($slice);
 $json = new \Bavix\SDK\FileLoader\JSONLoader(__DIR__ . '/data.json');
 $json->save($slice);
 
+$xml = new \Bavix\SDK\FileLoader\XmlLoader(__DIR__ . '/data.xml');
+$xml->save($slice);

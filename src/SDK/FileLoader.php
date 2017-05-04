@@ -17,7 +17,8 @@ class FileLoader
         'php'  => FileLoader\PHPLoader::class,
         'yml'  => FileLoader\YamlLoader::class,
         'yaml' => FileLoader\YamlLoader::class,
-        'json' => FileLoader\JSONLoader::class
+        'json' => FileLoader\JSONLoader::class,
+        'xml' => FileLoader\XmlLoader::class,
     ];
 
     /**
