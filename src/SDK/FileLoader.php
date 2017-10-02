@@ -50,11 +50,11 @@ class FileLoader
             throw new Exceptions\PermissionDenied($file);
         }
 
-        $pregObject =  PregMatch::first('~\.(\w+)$~', $file);
+        $preg = PregMatch::first('~\.(?<ext>\w+)$~', $file);
 
         $class = Arr::get(
             static::$extensions,
-            Arr::get($pregObject->matches, 1, 'php'),
+            Arr::get($preg->matches, 'ext', 'php'),
             static::$extensions['php']
         );
 
