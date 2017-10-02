@@ -11,11 +11,6 @@ class XmlLoader implements DataInterface
     use DataTrait;
 
     /**
-     * @var array
-     */
-    protected $data;
-
-    /**
      * @inheritdoc
      */
     public function asArray()
@@ -33,12 +28,9 @@ class XmlLoader implements DataInterface
      */
     public function save($data)
     {
-        if ($data instanceof Slice)
-        {
-            $data = $data->asArray();
-        }
+        $data = $this->_fromArray($data);
 
-        return (bool)file_put_contents(
+        return (bool)\file_put_contents(
             $this->path,
             XMLReader::sharedInstance()->asXML($data)
         );

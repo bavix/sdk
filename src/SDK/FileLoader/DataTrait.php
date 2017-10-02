@@ -13,13 +13,39 @@ trait DataTrait
     protected $path;
 
     /**
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * @param array|Slice $data
+     *
+     * @return array
+     */
+    protected function _fromArray($data)
+    {
+        if ($data instanceof Slice)
+        {
+            return $data->asArray();
+        }
+
+        return $data;
+    }
+
+    /**
      * DataTrait constructor.
      *
-     * @param string $path
+     * @param array|Slice|string $data
      */
-    public function __construct($path)
+    public function __construct($data)
     {
-        $this->path = $path;
+        if (\is_string($data))
+        {
+            $this->path = $data;
+            return;
+        }
+
+        $this->data = $this->_fromArray($data);
     }
 
     /**
@@ -30,6 +56,9 @@ trait DataTrait
         return new Slice($this->asArray(), $parameters);
     }
 
+    /**
+     * @return string
+     */
     public function path()
     {
         return $this->path;

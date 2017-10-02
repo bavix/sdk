@@ -11,18 +11,13 @@ class JSONLoader implements DataInterface
     use DataTrait;
 
     /**
-     * @var array
-     */
-    protected $data;
-
-    /**
      * @inheritdoc
      */
     public function asArray()
     {
         if (!$this->data)
         {
-            $yml        = file_get_contents($this->path);
+            $yml        = \file_get_contents($this->path);
             $this->data = JSON::decode($yml);
         }
 
@@ -34,12 +29,9 @@ class JSONLoader implements DataInterface
      */
     public function save($data)
     {
-        if ($data instanceof Slice)
-        {
-            $data = $data->asArray();
-        }
+        $data = $this->_fromArray($data);
 
-        return (bool)file_put_contents(
+        return (bool)\file_put_contents(
             $this->path,
             JSON::encode($data, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT)
         );

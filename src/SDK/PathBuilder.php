@@ -50,7 +50,7 @@ class PathBuilder
      */
     protected function string($data)
     {
-        return str_pad(
+        return \str_pad(
             $data,
             $this->depth * $this->length,
             $this->charPad,

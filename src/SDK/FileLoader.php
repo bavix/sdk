@@ -6,6 +6,7 @@ use Bavix\Exceptions\NotFound;
 use Bavix\Exceptions;
 use Bavix\Helpers\Arr;
 use Bavix\Helpers\File;
+use Bavix\Helpers\PregMatch;
 
 class FileLoader
 {
@@ -49,11 +50,11 @@ class FileLoader
             throw new Exceptions\PermissionDenied($file);
         }
 
-        \preg_match('~\.(\w+)$~', $file, $matches);
+        $pregObject =  PregMatch::first('~\.(\w+)$~', $file);
 
         $class = Arr::get(
             static::$extensions,
-            Arr::get($matches, 1, 'php'),
+            Arr::get($pregObject->matches, 1, 'php'),
             static::$extensions['php']
         );
 

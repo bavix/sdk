@@ -10,11 +10,6 @@ class PHPLoader implements DataInterface
     use DataTrait;
 
     /**
-     * @var array
-     */
-    protected $data;
-
-    /**
      * @inheritdoc
      */
     public function asArray()
@@ -32,12 +27,9 @@ class PHPLoader implements DataInterface
      */
     public function save($data)
     {
-        if ($data instanceof Slice)
-        {
-            $data = $data->asArray();
-        }
+        $data = $this->_fromArray($data);
 
-        return (bool)file_put_contents(
+        return (bool)\file_put_contents(
             $this->path,
             '<?php return ' . var_export($data, true) . ';'
         );

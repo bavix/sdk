@@ -12,7 +12,7 @@ class Path
      */
     public static function slash($data)
     {
-        return rtrim($data, '\\/') . DIRECTORY_SEPARATOR;
+        return \rtrim($data, '\\/') . DIRECTORY_SEPARATOR;
     }
 
 }
