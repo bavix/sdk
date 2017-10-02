@@ -13,13 +13,19 @@
       "Bavix\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "require": {
     "bavix/helpers": "^1.0",
     "bavix/foundation": "^1.0"
   },
   "require-dev": {
+    "symfony/yaml": "^3.2",
     "bavix/slice": "^1.0",
-    "bavix/xml": "^1.0",
-    "symfony/yaml": "^3.2"
+    "bavix/tests": "^1.0",
+    "bavix/xml": "^1.0"
   }
 }

@@ -116,5 +116,5 @@ class PathBuilder
     {
         return $type . '/' . $config . '/' . $this->hash($hash) . '/' . $hash;
     }
-    
+
 }

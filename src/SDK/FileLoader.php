@@ -18,7 +18,7 @@ class FileLoader
         'yml'  => FileLoader\YamlLoader::class,
         'yaml' => FileLoader\YamlLoader::class,
         'json' => FileLoader\JSONLoader::class,
-        'xml' => FileLoader\XmlLoader::class,
+        'xml'  => FileLoader\XmlLoader::class,
     ];
 
     /**
@@ -26,7 +26,7 @@ class FileLoader
      */
     public static function extensions()
     {
-        return array_keys(static::$extensions);
+        return Arr::getKeys(static::$extensions);
     }
 
     /**
@@ -49,7 +49,7 @@ class FileLoader
             throw new Exceptions\PermissionDenied($file);
         }
 
-        preg_match('~\.(\w+)$~', $file, $matches);
+        \preg_match('~\.(\w+)$~', $file, $matches);
 
         $class = Arr::get(
             static::$extensions,
