@@ -24,6 +24,7 @@ class FileLoader
 
     /**
      * @return array
+     * @codeCoverageIgnore
      */
     public static function extensions()
     {
