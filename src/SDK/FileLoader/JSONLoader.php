@@ -17,8 +17,8 @@ class JSONLoader implements DataInterface
     {
         if (!$this->data)
         {
-            $yml        = \file_get_contents($this->path);
-            $this->data = JSON::decode($yml);
+            $data       = \file_get_contents($this->path);
+            $this->data = JSON::decode($data);
         }
 
         return $this->data;

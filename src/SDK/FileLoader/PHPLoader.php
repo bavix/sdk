@@ -2,8 +2,6 @@
 
 namespace Bavix\SDK\FileLoader;
 
-use Bavix\Slice\Slice;
-
 class PHPLoader implements DataInterface
 {
 

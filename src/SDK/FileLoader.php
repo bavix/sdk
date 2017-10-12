@@ -20,6 +20,7 @@ class FileLoader
         'yaml' => FileLoader\YamlLoader::class,
         'json' => FileLoader\JSONLoader::class,
         'xml'  => FileLoader\XmlLoader::class,
+        'ini'  => FileLoader\IniLoader::class,
     ];
 
     /**
