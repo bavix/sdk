@@ -24,8 +24,10 @@
   },
   "require-dev": {
     "symfony/yaml": "^3.2",
+    "guzzlehttp/guzzle": "^6.3",
     "bavix/slice": "^1.0",
     "bavix/tests": "^1.0",
-    "bavix/xml": "^1.0"
+    "bavix/xml": "^1.0",
+    "nesbot/carbon": "^1.22"
   }
 }
