@@ -8,7 +8,6 @@ use Bavix\Helpers\JSON;
 use Bavix\Helpers\Str;
 use Bavix\Slice\Slice;
 use Carbon\Carbon;
-use Bavix\SDK\Helpers\Curl;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
