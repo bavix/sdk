@@ -500,9 +500,10 @@ class Corundum
     {
         try
         {
-            $token = $this->refreshToken($user);
+            $token  = $this->refreshToken($user);
+            $verify = $this->verify($token);
 
-            if (!$this->verify($token))
+            if (!$verify || !$verify->getRequired('verify'))
             {
                 throw new Invalid('The token isn\'t verified');
             }
