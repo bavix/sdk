@@ -4,6 +4,7 @@ namespace Bavix\SDK;
 
 use Bavix\Exceptions\Invalid;
 use Bavix\Helpers\Arr;
+use Bavix\Helpers\File;
 use Bavix\Helpers\JSON;
 use Bavix\Helpers\Str;
 use Bavix\Slice\Slice;
@@ -170,23 +171,27 @@ class Corundum
     /**
      * @param Slice $options
      *
-     * @return Slice
+     * @return Slice|null
      *
      * @throws Invalid
      */
-    protected function apiRequest(Slice $options): Slice
+    protected function apiRequest(Slice $options)
     {
-        $type    = $options->getData('token_type', 'Basic');
-        $method  = $options->getData('method', 'POST');
-        $token   = $options->getData('access_token', $this->basic);
-        $url     = $options->getData('url', $this->urlToken);
-        $params  = $options->getData('params', []);
-        $headers = $options->getData('headers', []);
+        $allow404 = $options->getData('allow404', false);
+        $type     = $options->getData('token_type', 'Basic');
+        $method   = $options->getData('method', 'POST');
+        $token    = $options->getData('access_token', $this->basic);
+        $url      = $options->getData('url', $this->urlToken);
+        $params   = $options->getData('params', []);
+        $headers  = $options->getData('headers', []);
 
         // headers
         $headers['Authorization'] = $type . ' ' . $token;
 
-        $client = new Client();
+        $client = new Client([
+            'debug'       => $this->slice->getData('debug', false),
+            'http_errors' => false
+        ]);
 
         $data = [
             'headers'   => $headers,
@@ -212,15 +217,20 @@ class Corundum
 
         $code = $this->getCode();
 
-        if ($code < 200 || $code > 299)
+        if ($allow404 && $code === 404)
         {
-            throw new Invalid(
-                'Error: ' . $this->response->getReasonPhrase(),
-                $code
-            );
+            return $this->getResults();
         }
 
-        return $this->getResults();
+        if ($code > 199 && $code < 300)
+        {
+            return $this->getResults();
+        }
+
+        throw new Invalid(
+            'Error: ' . $this->response->getReasonPhrase(),
+            $code
+        );
     }
 
     /**
@@ -245,8 +255,11 @@ class Corundum
             'params' => Arr::merge($defaults, $params)
         ]));
 
-        $response->expires = Carbon::now()
-            ->addSeconds($response->expires_in);
+        if ($response)
+        {
+            $response->expires = Carbon::now()
+                ->addSeconds($response->expires_in);
+        }
 
         return $response;
     }
@@ -261,7 +274,7 @@ class Corundum
      */
     protected function getToken(string $user, string $scope = ''): Slice
     {
-        if (!Arr::keyExists($this->tokens, $user))
+        if (!isset($this->tokens[$user]))
         {
             $this->tokens[$user] = $this->authorize($user, [
                 'scope' => $scope
@@ -302,6 +315,11 @@ class Corundum
      */
     public function upload(string $user, string $file, Slice $options = null): Slice
     {
+        if (!File::isFile($file))
+        {
+            throw new \Bavix\Exceptions\NotFound\Path('File not found!');
+        }
+
         if (!$options)
         {
             $options = $this->fake();
@@ -312,46 +330,142 @@ class Corundum
             $options->getData('scope', '')
         );
 
-        try
-        {
-            return $this->apiRequest(
-                $this->uploadSlice($token, $options, $file)
-            );
-        }
-        catch (\Throwable $throwable)
-        {
-            return $this->apiRequest(
-                $this->uploadSlice(
+        return $this->apiSend(
+            $this->uploadSlice($token, $options, $file),
+            function () use ($user, $options, $file) {
+                return $this->uploadSlice(
                     $this->tokenUpdate($user, $options),
                     $options,
                     $file
-                )
-            );
-        }
-
+                );
+            }
+        );
     }
 
     /**
-     * @param Slice $token
-     * @param Slice $options
+     * @param string     $user
+     * @param string     $name
+     * @param Slice|null $options
      *
      * @return Slice
      */
-    protected function uploadSlice(Slice $token, Slice $options, string $file): Slice
+    public function update(string $user, string $name, Slice $options = null): Slice
     {
+        if (!$options)
+        {
+            $options = $this->fake();
+        }
+
+        $token = $this->getToken(
+            $user,
+            $options->getData('scope', '')
+        );
+
+        $options->allow404 = true;
+
+        $urlUpload    = $this->slice->getRequired('app.url.upload');
+        $options->url = Path::slash($urlUpload) . $name;
+
+        return $this->apiSend(
+            $this->uploadSlice($token, $options),
+            function () use ($user, $options) {
+                return $this->uploadSlice(
+                    $this->tokenUpdate($user, $options),
+                    $options
+                );
+            }
+        );
+    }
+
+    /**
+     * @param string     $user
+     * @param string     $name
+     * @param Slice|null $options
+     *
+     * @return Slice|null
+     */
+    public function delete(string $user, string $name, Slice $options = null)
+    {
+        if (!$options)
+        {
+            $options = $this->fake();
+        }
+
+        $token = $this->getToken(
+            $user,
+            $options->getData('scope', '')
+        );
+
+        $options->allow404 = true;
+
+        $urlUpload    = $this->slice->getRequired('app.url.upload');
+        $options->url = Path::slash($urlUpload) . $name;
+
+        $options->method = 'delete';
+
+        return $this->apiSend(
+            $this->uploadSlice($token, $options),
+            function () use ($user, $options) {
+                return $this->uploadSlice(
+                    $this->tokenUpdate($user, $options),
+                    $options
+                );
+            }
+        );
+    }
+
+    /**
+     * @param Slice    $slice
+     * @param callable $callback
+     *
+     * @return Slice|null
+     */
+    protected function apiSend(Slice $slice, callable $callback)
+    {
+        try
+        {
+            return $this->apiRequest($slice);
+        }
+        catch (\Throwable $throwable)
+        {
+            return $this->apiRequest($callback());
+        }
+    }
+
+    /**
+     * @param Slice  $token
+     * @param Slice  $options
+     * @param string $file
+     *
+     * @return Slice
+     */
+    protected function uploadSlice(Slice $token, Slice $options, string $file = null): Slice
+    {
+        $params = $options->getData('params', []);
+
+        if ($file)
+        {
+            $params = Arr::merge($params, [
+                'file' => '@' . \ltrim($file, '@')
+            ]);
+        }
+
         return new Slice([
             'token_type'   => $token->getRequired('token_type'),
             'access_token' => $token->getRequired('access_token'),
             'method'       => $options->getData('method', 'post'),
-            'url'          => $this->slice->getRequired('app.url.upload'),
+            'url'          => $options->getData(
+                'url',
+                $this->slice->getRequired('app.url.upload')
+            ),
+
+            'allow404' => $options->getData('allow404', false),
 
             'headers' => Arr::merge($options->getData('headers', []), [
                 'Accept' => 'application/json'
             ]),
 
-            'params' => Arr::merge($options->getData('params', []), [
-                'file' => '@' . \ltrim($file, '@')
-            ])
+            'params' => $params
         ]);
     }
 

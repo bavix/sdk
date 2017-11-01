@@ -27,12 +27,18 @@ $corundum = new \Bavix\SDK\Corundum(new Bavix\Slice\Slice([
 
 ]));
 
+// upload
 try
 {
-    $slice = $corundum->upload('test', __DIR__ . '/index.png');
+    $slice = $corundum->upload('test', dirname(__DIR__) . '/web/index.png');
 }
 catch (\Throwable $throwable)
 {
+    if ($throwable instanceof \Bavix\Exceptions\NotFound\Path)
+    {
+        throw $throwable;
+    }
+
     $slice = $corundum->getResults();
 }
 
@@ -40,3 +46,44 @@ echo \Bavix\Helpers\JSON::encode([
     'code' => $corundum->getCode(),
     'data' => $slice
 ]);
+
+//// regenerate
+//try
+//{
+//    $slice = $corundum->update('test', 'mgRZIh.jpeg');
+//}
+//catch (\Throwable $throwable)
+//{
+//    if ($throwable instanceof \Bavix\Exceptions\NotFound\Path)
+//    {
+//        throw $throwable;
+//    }
+//
+//    $slice = $corundum->getResults();
+//}
+//
+//echo \Bavix\Helpers\JSON::encode([
+//    'code' => $corundum->getCode(),
+//    'data' => $slice
+//]);
+
+
+// delete
+//try
+//{
+//    $slice = $corundum->delete('test', 'mgRZIh.jpeg');
+//}
+//catch (\Throwable $throwable)
+//{
+//    if ($throwable instanceof \Bavix\Exceptions\NotFound\Path)
+//    {
+//        throw $throwable;
+//    }
+//
+//    $slice = $corundum->getResults();
+//}
+//
+//echo \Bavix\Helpers\JSON::encode([
+//    'code' => $corundum->getCode(),
+//    'data' => $slice
+//]);
