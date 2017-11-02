@@ -47,10 +47,14 @@ echo \Bavix\Helpers\JSON::encode([
     'data' => $slice
 ]);
 
-//// regenerate
+// regenerate
 //try
 //{
-//    $slice = $corundum->update('test', 'mgRZIh.jpeg');
+//    $slice = $corundum->update('test', 'MdaS9e.jpeg', new \Bavix\Slice\Slice([
+////        'params' => [
+////            'checkExists' => true
+////        ]
+//    ]));
 //}
 //catch (\Throwable $throwable)
 //{
