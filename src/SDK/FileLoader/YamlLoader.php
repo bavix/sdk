@@ -2,7 +2,6 @@
 
 namespace Bavix\SDK\FileLoader;
 
-use Bavix\Slice\Slice;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlLoader implements DataInterface

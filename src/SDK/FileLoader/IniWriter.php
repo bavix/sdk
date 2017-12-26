@@ -2,7 +2,6 @@
 
 namespace Bavix\SDK\FileLoader;
 
-use Bavix\Exceptions\Runtime;
 use Bavix\Helpers\File;
 
 class IniWriter
@@ -23,7 +22,7 @@ class IniWriter
 
     /**
      * @param array $config
-     * @param null  $header
+     * @param string|null  $header
      *
      * @return string
      */
