@@ -2,7 +2,6 @@
 
 namespace Bavix\SDK\FileLoader;
 
-use Bavix\Slice\Slice;
 use Bavix\XMLReader\XMLReader;
 
 class XmlLoader implements DataInterface

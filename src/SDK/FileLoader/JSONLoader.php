@@ -3,7 +3,6 @@
 namespace Bavix\SDK\FileLoader;
 
 use Bavix\Helpers\JSON;
-use Bavix\Slice\Slice;
 
 class JSONLoader implements DataInterface
 {
