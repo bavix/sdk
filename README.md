@@ -18,3 +18,8 @@ SDK for bavix of components.
 * **Version**: [![Latest Stable Version](https://poser.pugx.org/bavix/sdk/v/stable)](https://packagist.org/packages/bavix/sdk)
 * **PHP Version**: 7.1+ 
 * **[Composer](https://getcomposer.org/):** `composer require bavix/sdk`
+
+---
+Supported by
+
+[![Supported by JetBrains](https://cdn.rawgit.com/bavix/development-through/46475b4b/jetbrains.svg)](https://www.jetbrains.com/)
